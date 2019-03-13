@@ -1,2 +1,3 @@
 # Testing-miniReddit
-Automated Testing spec filesfor miniReddit project
+Automated Testing spec files for miniReddit project
+Using Protractor tool for Angular framework
