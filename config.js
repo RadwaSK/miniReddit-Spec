@@ -8,7 +8,7 @@ var dashboardReportDirectory = reportsDirectory + '/dashboardReport';
 exports.config =
  {
     directConnect: true,
-    specs: ['**/*.spec.js'],
+    specs: ['SignUp.espec.js'],
 
     onPrepare: function () {
         // xml report generated for dashboard

@@ -1,16 +1,15 @@
-
-//install nodejs and java
+#install nodejs and java
 sudo apt update
 sudo apt install nodejs npm
 apt-get install default-jdk
 
 
-//install protractor
+#install protractor
 npm install -g protractor
 webdriver-manager update
 
 
-//report package
+#report package
 npm i jasmine-spec-reporter
 npm i protractor-html-reporter-2
 npm i jasmine-reporters
