@@ -8,7 +8,6 @@ var dashboardReportDirectory = reportsDirectory + '/dashboardReport';
 exports.config =
  {
     directConnect: true,
-
     specs: ['vote.spec.js'],
 
     onPrepare: function () {
