@@ -8,7 +8,8 @@ var dashboardReportDirectory = reportsDirectory + '/dashboardReport';
 exports.config =
  {
     directConnect: true,
-    specs: ['SignUp.spec.js'],
+
+    specs: ['vote.spec.js'],
 
     onPrepare: function () {
         // xml report generated for dashboard
