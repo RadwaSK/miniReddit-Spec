@@ -206,4 +206,4 @@ class WebsiteUser(HttpLocust):
 	
 	min_wait = 3000
 	max_wait = 5000
-	host = 'http://lalhost:8081'
+	host = 'http://35.204.169.121/'
