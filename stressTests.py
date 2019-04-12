@@ -201,7 +201,7 @@ class tasksManager(TaskSet):
 	def on_stop(self):
 		signOut(self)
 
-class WebsiteUser(Httplust):
+class WebsiteUser(HttpLocust):
 	task_set = tasksManager
 	
 	min_wait = 3000
