@@ -1,102 +1,102 @@
 from lust import Httplust, TaskSet
 
-def signIn(l):
-	l.client.post('/api/unauth/signIn', {'username':'MISSING STRING', 'password':'MISSING STRING'})
+def signUp(l):
+    l.client.post("/api/unauth/signUp", {"username":"ASDXR","password":"pass","password_confirmation":"pass","email":"email@email.com"})
 
 def signOut(l):
 	l.client.post('/api/auth/signOut', {})
 
 #communities reuests
 def createCommunity(l):
-	l.client.post('/api/auth/createCommunity', {'community_name': 'MISSING STRING'})
+	l.client.post('/api/auth/createCommunity', {'community_name': 'comm name'})
 
 def editCommunity(l):
-	l.client.patch('/api/auth/editCommunity', {'community_name': 'MISSING STRING', 'rules_content': 'MISSING STRING',
-		'des_content': 'MISSING STRING', 'banner': 'MISSING STRING', 'logo': 'MISSING STRING'})
+	l.client.patch('/api/auth/editCommunity', {'community_name': 'comm name', 'rules_content': 'this is a content',
+		'des_content': 'another content', 'banner': 'A BANNER', 'logo': 'this is a logo'})
 
 def deleteCommunity(l):
-	l.client.post('/api/auth/removeCommunity', {'community_id': 'MISSING INT'})
+	l.client.post('/api/auth/removeCommunity', {'community_id': 1})
 
 def addModerator(l):
-	l.client.post('/api/auth/addModerator', {'community_id': 'MISSING INT', 'moderator_username':'MISSING STRING'})
+	l.client.post('/api/auth/addModerator', {'community_id': 1, 'moderator_username':'Moderator'})
 
-def removeModerator(l):		#WHY DO YOU SEND MODER. NAME IN REQUEST?!!
-	l.client.post('/api/auth/removeModerator', {'community_id':'MISSING INT', 'moderator_username':'MISSING STRING'})
+def removeModerator(l):
+	l.client.post('/api/auth/removeModerator', {'community_id':1, 'moderator_username':'Moderator'})
 
 def subscribeCommunity(l):
-	l.client.post('/api/auth/subscribeCommunity', {'community_id': 'MISSING INT'})
+	l.client.post('/api/auth/subscribeCommunity', {'community_id': 1})
 
 def unSubscribeCommunity(l):
-	l.client.post('/api/auth/unSubscribeCommunity', {'community_id': 'MISSING INT'})
+	l.client.post('/api/auth/unSubscribeCommunity', {'community_id': 1})
 
 def viewUserCommunities(l):
-	l.client.get('/api/unauth/viewUserCommunities', {'username': 'MISSING STRING'})
+	l.client.get('/api/unauth/viewUserCommunities', {'username': 'ASDXR'})
 
 def communityInformation(l):
-	l.client.get('/api/unauth/communityInformation', {'community_id': 'MISSING INT'})
+	l.client.get('/api/unauth/communityInformation', {'community_id': 1})
 
 #Interactive requests
 def saveLink(l):
-	l.client.post('/api/auth/saveLink', {'link_id': 'MISSING INT'})
+	l.client.post('/api/auth/saveLink', {'link_id': 1})
 
 def unSaveLink(l):	#THIS END POINT IS YET TO BE CHANGED IN API DOC!!
-	l.client.post('/api/auth/unsaveLink', {'link_id': 'MISSING INT'})
+	l.client.post('/api/auth/unsaveLink', {'link_id': 1})
 
 def addLink(l):
-	l.client.post('/api/auth/addLink', {'post_content': 'MISSING STRING', 'parent_link_id': 'MISSING INT',
-	'post_title': 'MISSING STRING', 'community_id': 'MISSING INT', 'image_path':'MISSING STRING', 'video_url':'MISSING STRING'})
+	l.client.post('/api/auth/addLink', {'post_content': 'this is post content', 'parent_link_id': 1,
+	'post_title': 'POST TITLE', 'community_id': 1, 'image_path':'image/path.png', 'video_url':'video/path.mp4'})
 
 def pinPost(l):
-	l.client.patch('/api/auth/pinPost', {'post_id': 'MISSING INT'})
+	l.client.patch('/api/auth/pinPost', {'post_id': 1})
 
 def removeLink(l):
-	l.client.post('/api/auth/removeLink', {'link_id': 'MISSING INT'})
+	l.client.post('/api/auth/removeLink', {'link_id': 1})
 
 def hidePost(l):
-	l.client.post('/api/auth/hidePost', {'post_id': 'MISSING INT'})
+	l.client.post('/api/auth/hidePost', {'post_id': 1})
 
 def unhidePost(l):
-	l.client.post('/api/auth/unhidePost', {'post_id': 'MISSING INT'})
+	l.client.post('/api/auth/unhidePost', {'post_id': 1})
 
 def editPost(l):
-	l.client.pacth('/api/auth/editPost', {'post_id': 'MISSING INT', 'new_title': 'MISSING STRING',
-		'new_content': 'MISSING STRING', 'new_image':'MISSING STRING'})
+	l.client.pacth('/api/auth/editPost', {'post_id': 1, 'new_title': 'New Post Title',
+		'new_content': 'New content', 'new_image':'image/path/new.png'})
 
 def editComment(l):
-	l.client.pacth('/api/auth/editComment', {'comment_id': 'MISSING INT', 'new_content': 'MISSING STRING'})
+	l.client.pacth('/api/auth/editComment', {'comment_id': 1, 'new_content': 'new content'})
 
 def upvoteLink(l):
-	l.client.post('/api/auth/upvoteLink', {'link_id': 'MISSING INT'})
+	l.client.post('/api/auth/upvoteLink', {'link_id': 1})
 
 def downvoteLink(l):
-	l.client.post('/api/auth/downvoteLink', {'link_id': 'MISSING INT'})
+	l.client.post('/api/auth/downvoteLink', {'link_id': 1})
 
 def viewUpOrDownvotedPosts(l):
-	l.client.get('/api/auth/viewUpOrDownvotedPosts', {'type': 'MISSING INT'})
+	l.client.get('/api/auth/viewUpOrDownvotedPosts', {'type': 1})
 
 def viewOverview(l):
-	l.client.get('/api/auth/viewOverview', {'username': 'MISSING STRING'})
+	l.client.get('/api/auth/viewOverview', {'username': 'ASDXR'})
 
 def viewSavedLinks(l):
 	l.client.get('/api/auth/viewSavedLinks', {})
 
 def giveReward(l):
-	l.client.post('/api/auth/giveReward', {'username': 'MISSING STRING'})
+	l.client.post('/api/auth/giveReward', {'username': 'ASDXR'})
 
 def uploadImage(l):
-	l.client.post('/api/auth/uploadImage', {'uploaded_image': 'MISSING FILE?'})
+	l.client.post('/api/auth/uploadImage', {'uploaded_image': 'a file'})
 
 def ViewPosts(l):
-	l.client.get('/api/unauth/ViewPosts', {'page_type': 'MISSING INT', 'username': 'MISSING STRING', 'community_id': 'MISSING INT'})
+	l.client.get('/api/unauth/ViewPosts', {'page_type': 1, 'username': 'ASDXR', 'community_id': 1})
 
 def viewComments(l):
-	l.client.get('/api/unauth/viewComments', {'username': 'MISSING STRING'})
+	l.client.get('/api/unauth/viewComments', {'username': 'ASDXR'})
 
 def viewCommentsReplies(l):
-	l.client.get('/api/unauth/viewCommentsReplies', {'link_id': 'MISSING INT'})
+	l.client.get('/api/unauth/viewCommentsReplies', {'link_id': 1})
 
 def viewSinglePost(l):
-	l.client.get('/api/unauth/viewSinglePost', {'post_id': 'MISSING INT'})
+	l.client.get('/api/unauth/viewSinglePost', {'post_id': 1})
 
 #CLASSES
 class tasksManager(TaskSet):
@@ -108,7 +108,7 @@ class tasksManager(TaskSet):
 	viewComments: 26, viewCommentsReplies: 27, viewSinglePost: 28, removeLink: 29}
 
 	def on_start(self):
-		signIn(self)
+		signUp(self)
 
 	def on_stop(self):
 		signOut(self)
