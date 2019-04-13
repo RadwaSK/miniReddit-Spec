@@ -1,9 +1,11 @@
 from locust import HttpLocust, TaskSet
+import json
 
 #needed heards
-headers3 = json={"Accept": "application/json","Authorization": "Bearer: {token}","Content-Type":"application/json"}
-headers1 = json={"Content-Type":"application/json"}
-headers2 = json={"Accept": "application/json","Authorization": "Bearer: {token}"}
+token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMDQuMTY5LjEyMVwvYXBpXC91bmF1dGhcL3NpZ25JbiIsImlhdCI6MTU1NTE1MzQ2MSwiZXhwIjoxNTU1NzU4MjYxLCJuYmYiOjE1NTUxNTM0NjEsImp0aSI6IlZLQVF5cExlWTdQRXhtUHEiLCJzdWIiOiJBU0RYUiIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.rrUod7gNvChBtyuvHZ0zJSavFvo6O4S8DfZ8GVy6nHs'
+headers1 = {"Content-Type":"application/json"}
+headers2 = {"Accept": "application/json","Authorization": "Bearer " + token}
+headers3 = {"Accept": "application/json","Authorization": 'Bearer ' + token, "Content-Type":"application/json"}
 
 #sign requests
 def signUp(l):
@@ -13,7 +15,7 @@ def signOut(l):
 	l.client.post('api/auth/signOut')
 
 def signIn(l):
-	l.client.post('api/auth/signOut', json={"username":"ASDXR", "password":"pass"})
+	l.client.post('api/unauth/signIn', json={"username":"ASDXR", "password":"passpasspass"})
 
 #communities reuests
 def createCommunity(l):
@@ -195,9 +197,8 @@ class tasksManager(TaskSet):
 	viewComments: 26, viewCommentsReplies: 27, viewSinglePost: 28, removeLink: 29}
 
 	def on_start(self):
-		signUp(self)
 		signIn(self)
-
+		
 	def on_stop(self):
 		signOut(self)
 
