@@ -10,7 +10,7 @@ def signUp(l):
     l.client.post("api/unauth/signUp", json={"username":"ASDXR","password":"pass","password_confirmation":"pass","email":"email@email.com"})
 
 def signOut(l):
-	l.client.post('api/auth/signOut',  {})
+	l.client.post('api/auth/signOut')
 
 def signIn(l):
 	l.client.post('api/auth/signOut', json={"username":"ASDXR", "password":"pass"})
