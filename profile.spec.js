@@ -46,8 +46,7 @@ it('Try to Hide ', function() {
 it('open list of posts i was commented on', function() {
     browser.get('http://localhost:4200/user/7moda');
     browser.sleep(3000);
-    element(by.cssContainingText('.navbar-item asd2', 'Comments')).click();
-  // element(by.linkText('Comments'))
+     element(by.id('Comments')).click();
     browser.sleep(3000);
    expect(browser.getCurrentUrl()).toBe('http://localhost:4200/user/7moda/comments');
  });
@@ -55,7 +54,7 @@ it('open list of posts i was commented on', function() {
 it('open list of My posts', function() {
     browser.get('http://localhost:4200/user/7moda');
     browser.sleep(3000);
-   element(by.linkText('Posts')).click();
+   element(by.id('Posts')).click();
     browser.sleep(3000);
    expect(browser.getCurrentUrl()).toBe('http://localhost:4200/user/7moda/posts');
  });
@@ -63,7 +62,7 @@ it('open list of My posts', function() {
 it('open list of My Saved posts', function() {
     browser.get('http://localhost:4200/user/7moda');
     browser.sleep(3000);
-   element(by.linkText('Saved')).click();
+   element(by.id('Saved')).click();
     browser.sleep(3000);
    expect(browser.getCurrentUrl()).toBe('http://localhost:4200/user/7moda/saved');
  });
@@ -71,21 +70,21 @@ it('open list of My Saved posts', function() {
 it('open list of My Hidden posts', function() {
     browser.get('http://localhost:4200/user/7moda');
     browser.sleep(3000);
-   element(by.linkText('Hidden')).click();
+   element(by.id('Hidden')).click();
     browser.sleep(3000);
    expect(browser.getCurrentUrl()).toBe('http://localhost:4200/user/7moda/hidden');
  });
 it('open list of My Upvoted posts', function() {
     browser.get('http://localhost:4200/user/7moda');
     browser.sleep(3000);
-   element(by.linkText('Upvoted')).click();
+   element(by.id('Upvoted')).click();
     browser.sleep(3000);
    expect(browser.getCurrentUrl()).toBe('http://localhost:4200/user/7moda/upvoted');
  });
 it('open list of My Downvoted posts', function() {
     browser.get('http://localhost:4200/user/7moda');
     browser.sleep(3000);
-   element(by.linkText('Downvoted')).click();
+   element(by.id('Downvoted')).click();
     browser.sleep(3000);
    expect(browser.getCurrentUrl()).toBe('http://localhost:4200/user/7moda/downvoted');
  });
@@ -106,7 +105,7 @@ it('check list of My posts', function() {
 it('check list of My Hidden posts', function() {
     browser.get('http://localhost:4200/user/7moda/hidden');
     browser.sleep(3000);
-    element(by.id('unhide1')).click();
+    element(by.id('unHide1')).click();
     browser.sleep(2000);
  });
 
