@@ -1,7 +1,7 @@
 describe('Community', () => {
 	beforeEach( () => {
-		browser.get('http://localhost:4200/community/1');	
-	})
+		browser.get('http://localhost:4200/community/1');
+	});
 
 	it('should be able to return to homepage', () => {
 		element(by.id('logo')).click();
