@@ -8,8 +8,8 @@ var dashboardReportDirectory = reportsDirectory + '/dashboardReport';
 exports.config =
  {
     directConnect: true,
-    specs: ['login.spec.js','Toolbar.spec.js', 'profile.spec.js','community.spec.js'],
-    //specs:['profile.spec.js'],
+    specs: ['LogIn.spec.js','Toolbar.spec.js', 'Profile.spec.js','SignUp.spec.js','Community.spec.js'],
+    //specs:['SignUp.spec.js'],
     onPrepare: function () {
         // xml report generated for dashboard
         jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({

@@ -217,5 +217,11 @@ it('should upvote and downvote for more than post', function() {
     expect(element(by.id('voteNum3')).getText()).toEqual('0');
   
  });
+it('should log out', function() {
 
+    element(by.id('right-dropdown')).click();
+    element(by.linkText('Log Out')).click();
+    browser.sleep(3000);
+    expect(element(by.id('log-in')).getText()).toEqual('Log in');
+  });
 });

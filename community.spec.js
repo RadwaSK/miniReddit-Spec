@@ -25,5 +25,6 @@ describe('Community', () => {
 		browser.sleep(2000);
 		expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/community/community/Edit_community');
 	});
+	
 
 });
