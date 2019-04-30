@@ -1,7 +1,7 @@
 describe('Toolbar', () => {
 	var EC = protractor.ExpectedConditions;
 	beforeEach( () => {
-		browser.get('http://localhost:4200/');
+		browser.get('http://35.204.169.121/Reddit/');
 	});
 
 	it('should have login button that opens a pop-up', ()=>{

@@ -1,11 +1,11 @@
 describe('Community', () => {
 	beforeEach( () => {
-		browser.get('http://localhost:4200/community/1');
+		browser.get('http://35.204.169.121/Reddit/community/1');
 	});
 
 	it('should be able to return to homepage', () => {
 		element(by.id('logo')).click();
-    	expect(browser.getCurrentUrl()).toBe('http://localhost:4200/');
+    	expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/');
 	});
 
 	it('should subscribe', () => {
@@ -22,7 +22,8 @@ describe('Community', () => {
 
 	it('should redirect to Edit Community on clicking its button', ()=>{
 		element(by.buttonText('EDIT COMMUNITY')).click();
-		expect(browser.getCurrentUrl()).toBe('http://localhost:4200/community/1/Edit_community');
+		browser.sleep(2000);
+		expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/community/community/Edit_community');
 	});
 
 });
