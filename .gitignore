@@ -1,2 +1,4 @@
 reports/**/*
 *.pyc
+reports/xml/xmlOutput.xml
+*.xml

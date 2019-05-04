@@ -26,7 +26,7 @@ describe('Log In Reddit', function() {
     browser.get('http://35.204.169.121/Reddit/');
     element(by.id('log-in')).click();
     browser.sleep(3000);
-      var user='mini-reddit'; var pass='mini-reddit0';
+    var user='mini-reddit'; var pass='mini-reddit0';
     element(by.css('[formcontrolname="username"]')).sendKeys(user);
     element(by.css('[formcontrolname="password"]')).sendKeys(pass);
     element(by.id('signin')).click();
