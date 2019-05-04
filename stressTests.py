@@ -32,8 +32,10 @@ def signUp(l):
 	dataJSON = response.json()
 	l.token = dataJSON['token']
 
-def deleteAcc(l):
+def deleteMyAccount(l):
 	i = randint(0, len(l.users)-1)
+	while l.users[i]['username'] == 'ASDXR':
+		i = randint(0, len(l.users)-1)
 	user = l.users[i]
 	password = user['password']
 	l.client.post("api/auth/deleteMyAccount",
@@ -65,7 +67,7 @@ def createCommunity(l):
 		json={'community_name': commName})
 
 def editCommunity(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	randomData = {'community_id': commID, 'rules_content': randstr(10),
 		'des_content': randstr(10), 'banner': randstr(5), 'logo': randstr(5)}
 	l.client.post('api/auth/editCommunity',
@@ -73,21 +75,21 @@ def editCommunity(l):
 		json=randomData)
 
 def removeCommunity(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	l.communityIDs.remove(commID)
 	l.client.post('api/auth/removeCommunity',
 		headers=headers3(l.token),
 		json={"community_id": commID})
 
 def addModerator(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	modName = randstr(8)
 	l.client.post('api/auth/addModerator',
 		headers=headers3(l.token),
 		json={'community_id': commID, 'moderator_username':modName})
 
 def removeModerator(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	i = randint(0, len(l.users)-1)
 	moderator = users[i]
 	modName = moderator['username']
@@ -95,14 +97,20 @@ def removeModerator(l):
 		headers=headers3(l.token),
 		json={'community_id':commID, 'moderator_username':modName})
 
+def viewModerators(l):
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
+	l.client.get('api/unauth/viewModerators',
+		headers=headers1,
+		json={'community_id':commID})
+
 def subscribeCommunity(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	l.client.post('api/auth/subscribeCommunity',
 		headers=headers3(l.token),
 		json={'community_id': commID})
 
 def unSubscribeCommunity(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	l.client.post('api/auth/unSubscribeCommunity',
 		headers=headers3(l.token),
 		json={'community_id': commID})
@@ -116,7 +124,7 @@ def viewUserCommunities(l):
 		json={'username': name})
 
 def communityInformation(l):
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
+	commID = l.communityIDs[randint(0, len(l.communityIDs)-1)]
 	l.client.get('api/unauth/communityInformation',
 		headers=headers1,
 		json={'community_id': commID})
@@ -124,86 +132,111 @@ def communityInformation(l):
 ########################################################################################################################################
 #Interactive requests
 def saveLink(l):
-	i = randint(0, len(l.linksID)-1)
-	link = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
+	
+	l.savedLinks.append(linkID)
+
 	l.client.post('api/auth/saveLink',
 		headers=headers3(l.token),
 		json={'link_id': link})
 
 def unSaveLink(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
+	
+	l.savedLinks.remove(linkID)
+	
 	l.client.post('api/auth/unsaveLink',
 		headers=headers3(l.token),
 		json={'link_id': linkID})
 
 def addLink(l):
-	link = randstr(4)
-	linkID = max(l.linksID)+1
-	l.linksID.append(linkID)
-	parentID = l.linksID[randint(0, len(l.linksID)-1)]
-	commID = l.communityIDs[randint(0, len(l.communityIDs))]
-	fakeLink = {'post_content': randstr(15), 'parent_link_id': randint(0, len(l.linksID)-1), 'post_title': randstr(10), 'community_id': commID, 'image_path': randstr(5) + '.png', 'video_url': randstr(7) + '.mp4'}
-	l.client.post('api/auth/addLink',
-		headers=headers3(l.token),
-		json=fakeLink)
+	case = randint(0,1)
+	if case == 0:
+		#post
+		postContent = randstr(15)
+		postTitle = randstr(10)
+		postID = max(l.postsID)+1
+		l.postsID.append(postID)
+		l.client.post('api/auth/addLink',
+			headers=headers3(l.token),
+			json={'post_content':postContent, 'post_title': postTitle});
+
+	else:
+		commentContent = randstr(10)
+		parentID = l.postsID[randint(0, len(l.postsID)-1)]
+		l.commentsID.append(max(l.commentsID)+1)
+		l.client.post('api/auth/addLink',
+			headers=headers3(l.token),
+			json={'post_content':commentContent, 'parent_link_id': parentID});
+
 
 def pinPost(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	postID = l.postsID[i]
+	if postID in l.pinnedPosts:
+		l.pinnedPosts.remove(postID)
+	else:
+		l.pinnedPosts.append(postID)
+
 	l.client.patch('api/auth/pinPost',
 		headers=headers3(l.token),
-		json={'post_id': linkID})
+		json={'post_id': postID})
 
 def removeLink(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
+	l.postsID.remove(linkID)
 	l.client.post('api/auth/removeLink',
 		headers=headers3(l.token),
 		json={'link_id': linkID})
-	l.linksID.remove(linkID)
+	
 
 def hidePost(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
+	l.hiddenPosts.append(linkID)
 	l.client.post('api/auth/hidePost',
 		headers=headers3(l.token),
 		json={'post_id': linkID})
 
 def unhidePost(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.hiddenPosts)-1)
+	linkID = l.hiddenPosts[i]
+	l.hiddenPosts.remove(linkID)
 	l.client.post('api/auth/unhidePost',
 		headers=headers3(l.token),
 		json={'post_id': linkID})
 
 
 def editPost(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
-	fakePost = {"post_id": linkID, "new_title": randstr(10), "new_content": randstr(15), "new_image": randstr(5)}
-	l.client.pacth('api/auth/editPost',
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
+	fakePost = {"post_id": linkID}
+	l.client.patch('api/auth/editPost',
 		headers=headers3(l.token),
 		json=fakePost)
 
+
 def editComment(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.commentsID)-1)
+	commentID = l.commentsID[i]
 	randContent = randstr(10)
-	l.client.pacth('api/auth/editComment',
+	l.client.patch('api/auth/editComment',
 		headers=headers3(l.token),
-		json={'comment_id': linkID, 'new_content': randContent})
+		json={'comment_id': commentID, 'new_content': randContent})
 
 def upvoteLink(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
 	l.client.post('api/auth/upvoteLink',
 		headers=headers3(l.token),
 		json={'link_id': linkID})
 
 def downvoteLink(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
 	l.client.post('api/auth/downvoteLink',
 		headers=headers3(l.token),
 		json={'link_id': linkID})
@@ -213,6 +246,10 @@ def viewUpOrDownvotedPosts(l):
 	l.client.get('api/auth/viewUpOrDownvotedPosts',
 		headers=headers3(l.token),
 		json={'type': boolean})
+
+def viewHiddenPosts(l):
+	l.client.get('api/auth/viewHiddenPosts',
+		headers=headers2(l.token))
 
 def viewOverview(l):
 	i = randint(0, len(l.users)-1)
@@ -232,7 +269,7 @@ def giveReward(l):
 	name = user['username']
 	l.client.post('api/auth/giveReward',
 		headers=headers3(l.token),
-		json={'username': 'ASDXR'})
+		json={'username': name})
 
 def uploadImage(l):
 	randImage = randstr(5)
@@ -263,15 +300,15 @@ def viewComments(l):
 
 
 def viewCommentsReplies(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
 	l.client.get('api/unauth/viewCommentsReplies',
 		headers=headers1,
 		json={'link_id': linkID})
 
 def viewSinglePost(l):
-	i = randint(0, len(l.linksID)-1)
-	linkID = l.linksID[i]
+	i = randint(0, len(l.postsID)-1)
+	linkID = l.postsID[i]
 	l.client.get('api/unauth/viewSinglePost',
 	headers=headers1,
 	json={'post_id': linkID})
@@ -294,15 +331,6 @@ def updateCoverAndProfileImage(l):
 	l.client.post("api/auth/updateCoverAndProfileImage",
     headers=headers3(l.token),
     json={"profile_image":"image", "profile_or_cover":i})
-
-def resetPassword(l):
-	i = randint(0, len(l.users)-1)
-	newPass = randstr(8)
-	users[i]['password'] = newPass
-	l.client.post("api/unauth/resetPassword",
-    	headers=headers1,
-    	json={"new_password":newPass, "confirm_new_password": newPass})
-
 
 def forgetPassword(l):
 	email = randstr(5) + '@email.com'
@@ -372,14 +400,15 @@ def follow(l):
 	i = randint(0, len(l.users)-1)
 	user = l.users[i]
 	name = user['username']
+	l.followedUsersList.append(name)
 	l.client.post("api/auth/follow",
 		headers=headers3(l.token),
 		json={"username":name})
 
 def unfollow(l):
-	i = randint(0, len(l.users)-1)
-	user = l.users[i]
-	name = user['username']
+	i = randint(0, len(l.followedUsersList)-1)
+	name = l.followedUsersList[i]
+	l.followedUsersList.remove(name)
 	l.client.post("api/auth/unfollow",
 		headers=headers3(l.token),
 		json={"username":name})
@@ -403,14 +432,15 @@ def blockUser(l):
 	i = randint(0, len(l.users)-1)
 	user = l.users[i]
 	name = user['username']
+	l.blockedUsersList.append(name)
 	l.client.post("api/auth/blockUser",
 		headers=headers3(l.token),
 		json={"username": name})
 
 def unblockUser(l):
-	i = randint(0, len(l.users)-1)
-	user = l.users[i]
-	name = user['username']
+	i = randint(0, len(l.blockedUsersList)-1)
+	name = l.blockedUsersList[i]
+	l.blockedUsersList.remove(name)
 	l.client.post("api/auth/unblockUser",
 		headers=headers3(l.token),
 		json={"username": name})
@@ -443,17 +473,26 @@ def viewPublicUserInfo(l):
 class tasksManager(TaskSet):
 	users = [{"username": "ASDXR", "password": "passpasspass"}]
 	communityIDs = [1]
-	linksID = [1]
+	postsID = [1]
+	commentsID = [1]
+	hiddenPosts = [1]
 	messages = [1]
+	savedLinks = [1]
+	pinnedPosts = [1]
+	blockedUsersList = ["nour"]
+	followedUsersList = ["menna"]
+	token = ""
+	
 
-	tasks = {signUp: 5, follow: 3, unfollow: 3, following: 4, followers: 4,
-	blockedUsers: 4, blockUser: 3, unblockUser: 3, upvoteLink: 3, addLink: 4, downvoteLink: 3,
-	ViewPosts: 4, viewUpOrDownvotedPosts: 4, viewComments: 4, viewSavedLinks: 4, viewOverview: 4,
-	viewCommentsReplies: 4, viewUserCommunities: 4, subscribeCommunity: 3, unSubscribeCommunity: 3,
-	createCommunity: 4, editComment: 3, removeCommunity: 4, getUsername: 4, pinPost: 3, removeLink:4,
-	hidePost: 3, unhidePost: 3, viewUserMessages: 4, deleteAcc: 5, viewUserSentMessages: 3,
-	sendMessage: 4, search: 3, viewPrivateUserInfo: 3, viewPublicUserInfo: 3, changePass: 2, updateDisplayName: 3,
-	updateAbout: 3, updateCoverAndProfileImage: 3}
+	tasks = {signUp: 3, follow: 3, unfollow: 2, following: 4, followers: 4, saveLink: 3, unSaveLink: 2, editPost: 3,
+	blockedUsers: 4, blockUser: 3, unblockUser: 3, upvoteLink: 3, addLink: 4, downvoteLink: 3, communityInformation: 3,
+	ViewPosts: 4, viewUpOrDownvotedPosts: 4, viewComments: 4, viewSavedLinks: 4, viewOverview: 4, viewModerators: 4,
+	viewCommentsReplies: 4, viewUserCommunities: 4, subscribeCommunity: 3, unSubscribeCommunity: 3, addModerator: 2,
+	createCommunity: 2, editCommunity: 4, editComment: 3, removeCommunity: 2, getUsername: 4, pinPost: 3, removeLink:4,
+	hidePost: 3, unhidePost: 3, viewUserMessages: 4, viewUserSentMessages: 3, removeModerator: 2,
+	sendMessage: 4, search: 3, viewPrivateUserInfo: 3, viewPublicUserInfo: 3, changePass: 1, updateDisplayName: 3,
+	updateAbout: 3, updateCoverAndProfileImage: 3, deleteMyAccount: 1, forgetPassword: 4, viewHiddenPosts: 3,
+	giveReward: 3, uploadImage: 2, viewSinglePost: 3, viewUserInboxMessages: 3, checkNotification: 4, pushNotification: 3}
 
 	def on_start(self):
 		signIn(self)
