@@ -3,7 +3,7 @@ describe('Edit Community Page ', () => {
 
 	browser.get('http://35.204.169.121/Reddit/');
 	browser.sleep(5000);
-	element(by.id('onesignal-popover-allow-button')).click();
+	element(by.id('onesignal-popover-cancel-button')).click();
 	browser.sleep(2000);
 	element(by.id('log-in')).click();
 	var user='amro'; var pass='123456789';
