@@ -56,15 +56,15 @@ describe('Community Page ', () => {
     commNameInList = commNameInList.then( (text) => {return text.substr(2);});
     element(by.partialLinkText('r/')).click();
     browser.sleep(5000);
-    var commName = element(by.className('Name')).getText();
+    var commName = element(by.id('Name')).getText();
     commName = commName.then( (text) => {return text.substr(2);});
-    var userName = element(by.id('UserName'));
-    browser.sleep(1000);
+    var userName = element(by.id('UserName')).getText();
+    browser.sleep(5000);
     var isModerator;
     var subscribers;
 
 	it('should have title of community as r/community name', () => {
-		var commName2 = element(by.className('Namei')).getText();
+		var commName2 = element(by.id('Namei')).getText();
 		expect(commName2).toContain('r/');
 	});
 
