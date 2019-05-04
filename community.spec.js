@@ -2,15 +2,15 @@ describe('Community Page ', () => {
 	var EC = protractor.ExpectedConditions;
 
 	function toNumber(promiseOrValue) {
-    // if it is not a promise, then convert a value
-    if (!protractor.promise.isPromise(promiseOrValue)) {
-        return parseInt(promiseOrValue, 10);
-    }
-    // if promise - convert result to number
-    return promiseOrValue.then(function (stringNumber) {
-        return parseInt(stringNumber, 10);
-    });
-}
+    	// if it is not a promise, then convert a value
+    	if (!protractor.promise.isPromise(promiseOrValue)) {
+    		return parseInt(promiseOrValue, 10);
+    	}
+    	// if promise - convert result to number
+    	return promiseOrValue.then(function (stringNumber) {
+	    	return parseInt(stringNumber, 10);
+    	});
+	}
 
 	//first I'll run tests when I'm not logged in
 	it('should open the community without logging in', () => {
@@ -44,24 +44,24 @@ describe('Community Page ', () => {
 	element(by.id('log-in')).click();
 	var user='amro'; var pass='123456789';
 	element(by.css('[formcontrolname="username"]')).sendKeys(user);
-    element(by.css('[formcontrolname="password"]')).sendKeys(pass);
-    browser.sleep(1000); 
-    element(by.buttonText('SIGN IN')).click();
-    browser.sleep(4000);
-    element(by.id('left-dropdown')).click();
-    browser.sleep(5000);
+	element(by.css('[formcontrolname="password"]')).sendKeys(pass);
+	browser.sleep(1000); 
+	element(by.buttonText('SIGN IN')).click();
+	browser.sleep(4000);
+	element(by.id('left-dropdown')).click();
+	browser.sleep(5000);
 
-    var commNameInList = element(by.partialLinkText('r/')).getText();
-    browser.sleep(2000);
-    commNameInList = commNameInList.then( (text) => {return text.substr(2);});
-    element(by.partialLinkText('r/')).click();
-    browser.sleep(5000);
-    var commName = element(by.className('Name')).getText();
-    commName = commName.then( (text) => {return text.substr(2);});
-    var userName = element(by.id('UserName')).getText();
-    browser.sleep(5000);
-    var isModerator;
-    var subscribers;
+	var commNameInList = element(by.partialLinkText('r/')).getText();
+	browser.sleep(2000);
+	commNameInList = commNameInList.then( (text) => {return text.substr(2);});
+	element(by.partialLinkText('r/')).click();
+	browser.sleep(5000);
+	var commName = element(by.className('Name')).getText();
+	commName = commName.then( (text) => {return text.substr(2);});
+	var userName = element(by.id('UserName')).getText();
+	browser.sleep(5000);
+	var isModerator;
+	var subscribers;
 
 	it('should have title of community as r/community name', () => {
 		var commName2 = element(by.className('Namei')).getText();
