@@ -31,6 +31,10 @@ describe('Edit Community Page ', () => {
 
 	});
 
+	it('should have a way to change rules', ()=>{
+
+	});
+
 	it('should change the demo appearance name when I change what is in the form', ()=>{
 
 	});
