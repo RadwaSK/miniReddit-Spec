@@ -1,5 +1,5 @@
 describe('Community Page ', () => {
-	var EC = protractor.ExpectedConditions;
+	
 
 	function toNumber(promiseOrValue) {
     	// if it is not a promise, then convert a value
