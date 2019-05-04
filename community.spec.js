@@ -21,9 +21,9 @@ describe('Community Page ', () => {
 	});
 
 	it('should open sign-up pop-up if I try to subscribe or create post', ()=>{
-		var createPost = element(by.buttonText('CREATE POST'));
+		var createPost = element(by.id('CreatePost'));
 		createPost.click();
-		browser.sleep(2000);
+		browser.sleep(4000);
 		var signUp = element(by.buttonText('Next')).isPresent();
 		expect(signUp).toBe(true);
 		var subscribe = element(by.buttonText('SUBSCRIBE'));
@@ -56,7 +56,7 @@ describe('Community Page ', () => {
     commNameInList = commNameInList.then( (text) => {return text.substr(2);});
     element(by.partialLinkText('r/')).click();
     browser.sleep(5000);
-    var commName = element(by.id('Name')).getText();
+    var commName = element(by.className('Name')).getText();
     commName = commName.then( (text) => {return text.substr(2);});
     var userName = element(by.id('UserName')).getText();
     browser.sleep(5000);
@@ -64,7 +64,7 @@ describe('Community Page ', () => {
     var subscribers;
 
 	it('should have title of community as r/community name', () => {
-		var commName2 = element(by.id('Namei')).getText();
+		var commName2 = element(by.className('Namei')).getText();
 		expect(commName2).toContain('r/');
 	});
 
