@@ -7,15 +7,15 @@ describe('Community Page ', () => {
     	}
     	// if promise - convert result to number
     	return promiseOrValue.then(function (stringNumber) {
-	    	return parseInt(stringNumber, 10);
+    		return parseInt(stringNumber, 10);
     	});
-	}
+    }
 
 	//first I'll run tests when I'm not logged in
 	it('should open the community without logging in', () => {
-		browser.get('http://35.204.169.121/Reddit/community/2');
-		browser.sleep(4000);
-		var toolbarExistance = element(by.id('left-dropdown')).isPresent();
+		browser.get('http://35.204.169.121:4300/community/2');
+		browser.sleep(6000);
+		var toolbarExistance = element(by.id('left-dropdown-button')).isPresent();
 		expect(toolbarExistance).toBe(true);
 	});
 
@@ -32,36 +32,41 @@ describe('Community Page ', () => {
 		expect(signUp).toBe(true);
 	});
 
-	//second tests after logging in
-	//I'll start at home page, log in to an account and open a community
-
-	browser.sleep(5000);
-	browser.get('http://35.204.169.121/Reddit/');
-	browser.sleep(5000);
-	element(by.id('onesignal-popover-cancel-button')).click();
-	browser.sleep(2000);
-	element(by.id('log-in')).click();
-	var user='amro'; var pass='123456789';
-	element(by.css('[formcontrolname="username"]')).sendKeys(user);
-	element(by.css('[formcontrolname="password"]')).sendKeys(pass);
-	browser.sleep(1000); 
-	element(by.buttonText('SIGN IN')).click();
-	browser.sleep(4000);
-	element(by.id('left-dropdown')).click();
-	browser.sleep(5000);
-
-	var commNameInList = element(by.partialLinkText('r/')).getText();
-	browser.sleep(2000);
-	commNameInList = commNameInList.then( (text) => {return text.substr(2);});
-	element(by.partialLinkText('r/')).click();
-	browser.sleep(5000);
-	var commName = element(by.className('Name')).getText();
-	commName = commName.then( (text) => {return text.substr(2);});
-	var userName = element(by.id('UserName')).getText();
-	browser.sleep(5000);
+	var commNameInList;
+	var commName;
+	var userName;
 	var isModerator;
 	var subscribers;
 
+	//second tests after logging in
+	//I'll start at home page, log in to an account and open a community
+	it('should do nothing here', ()=> {
+		browser.get('http://35.204.169.121:4300/');
+		browser.sleep(5000);
+		//element(by.id('onesignal-popover-cancel-button')).click();
+		//browser.sleep(2000);
+		element(by.id('log-in')).click();
+		browser.sleep(2000);
+		var user='amro'; var pass='123456789';
+		element(by.css('[formcontrolname="username"]')).sendKeys(user);
+		element(by.css('[formcontrolname="password"]')).sendKeys(pass);
+		element(by.id('signin')).click();
+		browser.sleep(4000);
+		element(by.id('left-dropdown-button')).click();
+		browser.sleep(5000);
+
+		commNameInList = element(by.partialLinkText('r/')).getText();
+		browser.sleep(2000);
+		commNameInList = commNameInList.then( (text) => {return text.substr(2);});
+		element(by.partialLinkText('r/')).click();
+		browser.sleep(5000);
+		commName = element(by.className('Name')).getText();
+		commName = commName.then( (text) => {return text.substr(2);});
+		userName = element(by.id('UserName')).getText();
+		browser.sleep(5000);
+		expect(1).toEqual(1);
+	});
+	
 	it('should have title of community as r/community name', () => {
 		var commName2 = element(by.className('Namei')).getText();
 		expect(commName2).toContain('r/');
@@ -77,6 +82,7 @@ describe('Community Page ', () => {
 
 	it('should have name of community in toolbar not Popular', ()=>{
 		var dropdownName = element(by.id('dropdown-left-name')).getText();
+		commName2 = commName2.then( (text) => {return text.substr(2);});
 		expect(dropdownName).toEqual(commName);
 	});
 
@@ -104,7 +110,7 @@ describe('Community Page ', () => {
 			isModerator = false;
 		browser.sleep(500);
 
-		expect(modUrl).toEqual('http://35.204.169.121/Reddit/community/2/Moderators');
+		expect(modUrl).toEqual('http://35.204.169.121:4300/community/2/Moderators');
 		browser.navigate().back();
 		browser.sleep(3000);
 	});
@@ -116,9 +122,9 @@ describe('Community Page ', () => {
 
 	it('should have non-negative number of subscribers', ()=>{
 		var subscribersText = element(by.className('subscribersCnt')).getText();
-		var subscribers = toNumber(subscribersText);
-		if (Subscribers < 0)
-			expect(subscribers).toEqual(256);
+		subscribers = toNumber(subscribersText);
+		if (subscribers < 0)
+			expect(subscribers).toBe('non-negative number');
 	});
 
 	it('should have non-negative number of online subscribers', ()=>{
@@ -137,7 +143,10 @@ describe('Community Page ', () => {
 		expect(button).toBe(true);
 		var newSubscribersText = element(by.className('subscribersCnt')).getText();
 		var newSubscribers = toNumber(newSubscribersText);
-		expect(newSubscribers).toEqual(subscribers-1);
+		browser.refresh();
+		browser.sleep(4000);
+		subscribers = subscribers.then( (num) => { return num-1; });
+		expect(newSubscribers).toEqual(subscribers);
 	});
 
 	it('should be able to subscribe', ()=>{
@@ -149,16 +158,19 @@ describe('Community Page ', () => {
 		expect(button).toBe(true);
 		var newSubscribersText = element(by.className('subscribersCnt')).getText();
 		newSubscribers = toNumber(newSubscribersText);
+		browser.refresh();
+		browser.sleep(4000);
+		subscribers = subscribers.then( (num) => { return num+1; });
 		expect(newSubscribers).toEqual(subscribers);
 	});
 
 	it('should be able to create post', ()=>{
-		var button = element(by.buttonText("CREATE POST")).isPresent();
+		var button = element(by.id("CreatePost")).isPresent();
 		expect(button).toBe(true);
-		element(by.buttonText("CREATE POST")).click();
+		element(by.id("CreatePost")).click();
 		browser.sleep(1000);
 		var newUrl = browser.getCurrentUrl();
-		if (newUrl == 'http://35.204.169.121/Reddit/community/2')
+		if (newUrl == 'http://35.204.169.121:4300/community/2')
 			expect(1).toEqual(0);
 		else
 			browser.navigate().back();	
@@ -167,15 +179,15 @@ describe('Community Page ', () => {
 
 	it('should see Edit Community button only if this account is in moderators list', ()=>{
 		if (isModerator){
-			var editComm = element(by.buttonText('EDIT COMMUNITY')).isPresent();
+			var editComm = element(by.id('editCommunityBtn')).isPresent();
 			expect(editComm).toBe(true);
-			element(by.buttonText('EDIT COMMUNITY')).click();
+			element(by.id('editCommunityBtn')).click();
 			browser.sleep(3000);
 			var newUrl = browser.getCurrentUrl();
-			expect(newUrl).toEqual('http://35.204.169.121/Reddit/community/2/Edit_community');
+			expect(newUrl).toEqual('http://35.204.169.121:4300/community/2/Edit_community');
 		}
 		else{
-			var editComm = element(by.buttonText('EDIT COMMUNITY')).isPresent();
+			var editComm = element(by.id('editCommunityBtn')).isPresent();
 			expect(editComm).toBe(false);
 		}
 	});
@@ -191,7 +203,7 @@ describe('Community Page ', () => {
 		element(by.partialLinkText('Log Out')).click();
 		browser.sleep(2000);
 		var newUrl = browser.getCurrentUrl();
-		expect(newUrl).toEqual('http://35.204.169.121/Reddit/community/2');
+		expect(newUrl).toEqual('http://35.204.169.121:4300/community/2');
 	});
 
 });

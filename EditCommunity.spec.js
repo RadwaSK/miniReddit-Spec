@@ -1,7 +1,7 @@
 describe('Edit Community Page ', () => {
 	var EC = protractor.ExpectedConditions;
 
-	browser.get('http://35.204.169.121/Reddit/');
+	browser.get('http://35.204.169.121:4300/');
 	browser.sleep(5000);
 	element(by.id('onesignal-popover-cancel-button')).click();
 	browser.sleep(2000);
@@ -27,7 +27,7 @@ describe('Edit Community Page ', () => {
 		element(by.buttonText('EDIT COMMUNITY')).click();
 		browser.sleep(5000);
 		var newUrl = browser.getCurrentUrl();
-		expect(newUrl).toEqual('http://35.204.169.121/Reddit/community/2/Edit_community');
+		expect(newUrl).toEqual('http://35.204.169.121:4300/community/2/Edit_community');
 	});
 
 	it('shouldnt have Edit button clickable at first', ()=>{
@@ -94,11 +94,11 @@ describe('Edit Community Page ', () => {
 		element(by.id('avatarUp')).click();
 		browser.sleep(2000);
 		var url = browser.getCurrentUrl();
-		expect(url).toEqual('http://35.204.169.121/Reddit/community/2/Edit_community');
+		expect(url).toEqual('http://35.204.169.121:4300/community/2/Edit_community');
 		element(by.id('bannerUp')).click();
 		browser.sleep(2000);
 		var url = browser.getCurrentUrl();
-		expect(url).toEqual('http://35.204.169.121/Reddit/community/2/Edit_community');
+		expect(url).toEqual('http://35.204.169.121:4300/community/2/Edit_community');
 	});
 
 	it('should have change avatar appearance on changing it in form', ()=>{
@@ -136,7 +136,7 @@ describe('Edit Community Page ', () => {
 		if (!found)
 			expect('editing').toBe('done');
 		var url = browser.getCurrentUrl();
-		expect(url).toEqual('http://35.204.169.121/Reddit/community/2');
+		expect(url).toEqual('http://35.204.169.121:4300/community/2');
 	});	
 
 	it('should have the updated data', ()=> {
@@ -157,7 +157,7 @@ describe('Edit Community Page ', () => {
 		if (!found)
 			expect('community').toBe('deleted');
 		var url = browser.getCurrentUrl();
-		expect(url).toEqual('http://35.204.169.121/Reddit/');
+		expect(url).toEqual('http://35.204.169.121:4300/');
 	})
 
 });
