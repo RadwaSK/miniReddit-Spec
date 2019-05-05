@@ -1,16 +1,31 @@
 describe('setting', function() {
     var EC = protractor.ExpectedConditions;
-it('check loged in ', function() {
-    browser.get('http://35.204.169.121/Reddit/');
+    it('check loged in ', function() {
+     browser.get('http://35.204.169.121/Reddit/');
+     browser.wait(EC.urlIs('http://35.204.169.121/Reddit/'), 5000); 
+     browser.sleep(5000);
+    browser.wait(EC.presenceOf(element(by.id('onesignal-popover-container')).element(by.id('onesignal-popover-cancel-button'))), 5000);
+    element(by.id('onesignal-popover-container')).element(by.id('onesignal-popover-cancel-button')).isPresent().then(function(result) {
+    if ( result ) {
+         element(by.id('onesignal-popover-container')).element(by.id('onesignal-popover-cancel-button')).click();
+    } else {
+        //do nothing
+    }
+
+   });
+   
+  
+    browser.sleep(5000);
     element(by.id('log-in')).click();
     browser.sleep(3000);
     var user='mini-reddit'; var pass='mini-reddit';
     element(by.css('[formcontrolname="username"]')).sendKeys(user);
     element(by.css('[formcontrolname="password"]')).sendKeys(pass);
     element(by.id('signin')).click();
-    browser.sleep(5000);
+    browser.sleep(3000);
     expect(element(by.id('UserName')).getText()).toEqual(user);
   });
+
 it('Go to the setting ', function() {
     browser.get('http://35.204.169.121/Reddit/');
     element(by.id('right-dropdown')).click();
@@ -374,8 +389,6 @@ it('change display name and about', function() {
     expect(element(by.css('[formcontrolname="displayname"]')).getAttribute('value')).toEqual(name);
     expect(element(by.css('[formcontrolname="about"]')).getAttribute('value')).toEqual(about);
  });
-
-
 /*var path = require('E:\photo\Anime ♡');
 
 it(' upload a Avater image', function() {
@@ -390,5 +403,100 @@ it(' upload a Avater bannar', function() {
     absolutePath = path.resolve(__dirname, fileToUpload);
     element(by.id('fileToUploadbannar')).sendKeys(absolutePath);    
 
-});*/
 });
+it('should log out', function() {
+
+    element(by.id('right-dropdown')).click();
+    element(by.linkText('Log Out')).click();
+    browser.sleep(3000);
+    expect(element(by.id('log-in')).getText()).toEqual('Log in');
+  });
+});
+*/
+describe('Blocking', function() {
+    var EC = protractor.ExpectedConditions;
+    it('check loged in ', function() {
+     browser.get('http://35.204.169.121/Reddit/');
+     browser.wait(EC.urlIs('http://35.204.169.121/Reddit/'), 5000); 
+     browser.sleep(5000);
+    browser.wait(EC.presenceOf(element(by.id('onesignal-popover-container')).element(by.id('onesignal-popover-cancel-button'))), 5000);
+    element(by.id('onesignal-popover-container')).element(by.id('onesignal-popover-cancel-button')).isPresent().then(function(result) {
+    if ( result ) {
+         element(by.id('onesignal-popover-container')).element(by.id('onesignal-popover-cancel-button')).click();
+    } else {
+        //do nothing
+    }
+
+   });
+   
+  
+    browser.sleep(5000);
+    element(by.id('log-in')).click();
+    browser.sleep(3000);
+    var user='menna'; var pass='123456789';
+    element(by.css('[formcontrolname="username"]')).sendKeys(user);
+    element(by.css('[formcontrolname="password"]')).sendKeys(pass);
+    element(by.id('signin')).click();
+    browser.sleep(3000);
+    expect(element(by.id('UserName')).getText()).toEqual(user);
+  });
+    it('remove blocked user', function() {
+    browser.get('http://35.204.169.121/Reddit/');
+    element(by.id('right-dropdown')).click();
+    element(by.linkText('User settings')).click();
+    browser.sleep(3000);
+    element(by.linkText('Privacy & Security')).click();
+    expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/settings/privacy');
+    browser.sleep(1000);
+    element(by.id('remove')).click(); 
+     browser.sleep(1000);
+    browser.wait(EC.presenceOf(element(by.css('[role="status"]'))), 1000);
+    expect(element(by.css('[role="status"]')).getText()).toEqual('User Unblocked successfully !');
+   
+ });
+it('block invalid user', function() {
+    browser.get('http://35.204.169.121/Reddit/');
+    element(by.id('right-dropdown')).click();
+    element(by.linkText('User settings')).click();
+    browser.sleep(2000);
+    element(by.linkText('Privacy & Security')).click();
+    expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/settings/privacy');
+    var user ='Abdelrahman';
+    element(by.css('[placeholder="ADD USER TO BLOCKED LIST"]')).sendKeys(user);
+    element(by.buttonText('ADD')).click(); 
+    browser.sleep(1000);
+    browser.wait(EC.presenceOf(element(by.css('[role="status"]'))), 1000);
+    expect(element(by.css('[role="status"]')).getText()).toEqual("username doesn't exist");
+ });
+
+it('block valid user', function() {
+    browser.get('http://35.204.169.121/Reddit/');
+    element(by.id('right-dropdown')).click();
+    element(by.linkText('User settings')).click();
+    browser.sleep(3000);
+    element(by.linkText('Privacy & Security')).click();
+    expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/settings/privacy');
+    var user ='reham';
+    element(by.css('[placeholder="ADD USER TO BLOCKED LIST"]')).sendKeys(user);
+    element(by.buttonText('ADD')).click(); 
+     browser.sleep(1000);
+    browser.wait(EC.presenceOf(element(by.css('[role="status"]'))), 1000);
+    expect(element(by.css('[role="status"]')).getText()).toEqual('User blocked successfully !');
+   
+ });
+it('block already blocked user', function() {
+    browser.get('http://35.204.169.121/Reddit/');
+    element(by.id('right-dropdown')).click();
+    element(by.linkText('User settings')).click();
+    browser.sleep(3000);
+    element(by.linkText('Privacy & Security')).click();
+    expect(browser.getCurrentUrl()).toBe('http://35.204.169.121/Reddit/settings/privacy');
+    var user ='reham';
+    element(by.css('[placeholder="ADD USER TO BLOCKED LIST"]')).sendKeys(user);
+    element(by.buttonText('ADD')).click(); 
+     browser.sleep(1000);
+    browser.wait(EC.presenceOf(element(by.css('[role="status"]'))), 2000);
+    expect(element(by.css('[role="status"]')).getText()).toEqual('Already blocked');
+   
+ });
+ });

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="2" time="42.67">
- <testsuite name="Profile" timestamp="2019-05-03T22:22:52" hostname="localhost" time="42.67" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Profile" name="check loged in " time="26.948" />
-  <testcase classname="Profile" name="should upvote 3 times" time="15.717" />
+<testsuites disabled="0" errors="0" failures="0" tests="4" time="63.951">
+ <testsuite name="Toolbar" timestamp="2019-05-04T21:57:05" hostname="localhost" time="63.951" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="Toolbar" name="should have login button that opens a pop-up" time="12.283" />
+  <testcase classname="Toolbar" name="should have sign up button that opens a pop-up" time="7.807" />
+  <testcase classname="Toolbar" name="check loged in " time="34.025" />
+  <testcase classname="Toolbar" name="should go to user setting" time="9.832" />
  </testsuite>
 </testsuites>
