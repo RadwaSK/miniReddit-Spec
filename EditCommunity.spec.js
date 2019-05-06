@@ -8,7 +8,7 @@ describe('Edit Community Page ', () => {
 	element(by.css('[formcontrolname="username"]')).sendKeys(user);
 	element(by.css('[formcontrolname="password"]')).sendKeys(pass);
 	browser.sleep(1000); 
-	element(by.buttonText('SIGN IN')).click();
+	element(by.id('signin')).click();
 	browser.sleep(4000);
 	element(by.id('left-dropdown-button')).click();
 	browser.sleep(5000);
