@@ -171,7 +171,7 @@ describe('Community Page ', () => {
 		browser.sleep(1000);
 		var newUrl = browser.getCurrentUrl();
 		if (newUrl == 'http://35.204.169.121:4300/community/2')
-			expect(1).toEqual(0);
+			expect('url').toBe('changed');
 		else
 			browser.navigate().back();	
 		browser.sleep(3000);

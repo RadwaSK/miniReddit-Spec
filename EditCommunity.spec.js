@@ -31,8 +31,7 @@ describe('Edit Community Page ', () => {
 	it('shouldnt have Edit button clickable at first', ()=>{
 		element(by.id('edit-comm')).click();
 		browser.sleep(3000);
-		elemen(by.buttonText('Yes')).click();
-		var popup = element(by.className('mat-snack-bar-container ng-tns-c10-18 ng-trigger ng-trigger-state snack-remove-button mat-snack-bar-center ng-star-inserted')).isPresent();
+		var popup = element(by.buttonText('Yes')).isPresent();
 		if (popup)
 			expect('Edit button').toBe('not clickable');
 	});
@@ -48,17 +47,16 @@ describe('Edit Community Page ', () => {
 			var found = EC.textToBePresentInElement(status, 'Community has not been edited');
 			if (!found)
 				expect('editing').toBe('invalid');
-			//var status = element(by.className('mat-snack-bar-container ng-tns-c10-18 ng-trigger ng-trigger-state snack-remove-button mat-snack-bar-center ng-star-inserted')).getText();
 		}
 	});
 
 	it('should have community name be same as in community itself', ()=>{
-		var name = element(by.id('namett')).getText();
+		var name = element(by.id('namett')).getAttribute('value');
 		expect(name).toEqual(commName);
 	});
 
 	it('should have about be same as in community itself', ()=>{
-		var about = element(by.id('inputabout')).getText();
+		var about = element(by.id('inputabout')).getAttribute('value');
 		expect(about).toEqual(commAbout);
 		var dispAbout = element(by.className('bioooo')).getText();
 		expect(dispAbout).toEqual(about);
@@ -68,7 +66,7 @@ describe('Edit Community Page ', () => {
 		var newRules = 'new rules';
 		element(by.id('rules')).click().clear().sendKeys(newRules);
 		browser.sleep(1000);
-		var viewedRules = element(by.id('rules')).getText();
+		var viewedRules = element(by.id('rules')).getAttribute('value');
 		expect(viewedRules).toEqual(newRules);
 	});
 
@@ -83,7 +81,7 @@ describe('Edit Community Page ', () => {
 		var newAbout = 'new about'
 		element(by.id('inputabout')).click().clear().sendKeys(newAbout);
 		browser.sleep(2000);
-		var dispAbout = element(by.className('bioooo'));
+		var dispAbout = element(by.className('bioooo')).getText();
 		expect(newAbout).toEqual(dispAbout);
 		element(by.id('inputabout')).click().clear().sendKeys(commAbout);
 		browser.sleep(2000);
@@ -109,7 +107,7 @@ describe('Edit Community Page ', () => {
 		var newSrc = pp.getAttribute('src').getText();
 		if (newSrc == oldSrc)
 			expect('avatar').toBe('changed');
-		//input.sendKeys(oldSrc);
+		input.sendKeys(oldSrc);
 	});	
 
 	it('should have change banner appearance on changing it in form', ()=>{
@@ -121,7 +119,7 @@ describe('Edit Community Page ', () => {
 		var newSrc = banner.getAttribute('src').getText();
 		if (newSrc == oldSrc)
 			expect('banner').toBe('changed');
-		//input.sendKeys(oldSrc);
+		input.sendKeys(oldSrc);
 	});	
 
 	it('should be able to click edit and redirect to community', ()=>{
